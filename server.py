@@ -1,12 +1,14 @@
 from flask import Flask, render_template, request, redirect
 import csv
+import os
 
 app = Flask(__name__)#__name__ == __main__ bcs we run this app in our main file
 
 #INIT CSV File Headers
-with open('./database.csv', 'a', newline='') as db:
-  csv_writer = csv.writer(db, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-  csv_writer.writerow(['Email', 'Subject', 'Message'])
+if os.stat('database.csv').st_size == 0: 
+  with open('./database.csv', 'a', newline='') as db:
+    csv_writer = csv.writer(db, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    csv_writer.writerow(['Email', 'Subject', 'Message'])
 
 def write_to_db_txt(data): 
   with open('./database.txt', 'a') as db:
